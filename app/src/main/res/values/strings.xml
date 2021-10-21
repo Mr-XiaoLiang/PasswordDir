@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">PasswordDir</string>
+    <string name="nomedia">屏蔽媒体扫描</string>
+    <string name="dir_name_length">文件名长度</string>
+    <string name="dir_count">单层文件夹数量</string>
+    <string name="max">最大</string>
+    <string name="min">最小</string>
+    <string name="dir_layers_count">文件夹层数</string>
+    <string name="use_number">包含数字</string>
+    <string name="use_lowercase">使用小写字母</string>
+    <string name="use_uppercase">使用大写字母</string>
 </resources>

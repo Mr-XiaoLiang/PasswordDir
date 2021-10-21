@@ -1,29 +1,392 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".MainActivity">
 
-    <FrameLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/messageCard"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHeight_percent="0.3">
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="#333"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messageListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dirInfoCard"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="12dp"
+        app:cardBackgroundColor="#333"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/messageCard"
+        app:layout_constraintStart_toStartOf="@id/messageCard"
+        app:layout_constraintTop_toBottomOf="@id/messageCard">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="预计生成100 - 200个文件夹"
+            android:textColor="#0AA80A" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dirInfoCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/nomediaBtn"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_btn"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="10dp"
+                app:layout_constraintEnd_toStartOf="@id/dirCountGroup"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/nomediaStateView"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@color/teal_700"
+                    app:shapeAppearanceOverlay="@style/OvalShape" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="@string/nomedia"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dirCountGroup"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_btn"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/nomediaBtn"
+                app:layout_constraintWidth_percent="0.6">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/dirCountMinGroup"
+                    android:layout_width="0px"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp"
+                    app:cardBackgroundColor="@color/black"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toStartOf="@id/dirCountMaxGroup"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dirCountMinView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_btn" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/dirCountMaxGroup"
+                    android:layout_width="0px"
+                    android:layout_height="0px"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:minHeight="50dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp"
+                    app:cardBackgroundColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/dirCountMinGroup"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/dirCountMinGroup"
+                    app:layout_constraintTop_toTopOf="@id/dirCountMinGroup">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dirCountMaxView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_btn" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/dirCountMinDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/min"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/dirCountMinGroup"
+                    app:layout_constraintStart_toStartOf="@id/dirCountMinGroup"
+                    app:layout_constraintTop_toBottomOf="@id/dirCountMinGroup" />
+
+                <TextView
+                    android:id="@+id/dirCountMaxDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/max"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/dirCountMaxGroup"
+                    app:layout_constraintStart_toStartOf="@id/dirCountMaxGroup"
+                    app:layout_constraintTop_toBottomOf="@id/dirCountMaxGroup" />
+
+                <TextView
+                    android:id="@+id/dirCountDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/dir_count"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/dirCountMaxGroup"
+                    app:layout_constraintStart_toStartOf="@id/dirCountMinGroup"
+                    app:layout_constraintTop_toBottomOf="@id/dirCountMinDescription" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="nomediaBtn,dirCountGroup" />
+
+            <LinearLayout
+                android:id="@+id/dirNameLengthGroup"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintEnd_toStartOf="@id/dirLayersCountGroup"
+                app:layout_constraintStart_toStartOf="@id/nomediaBtn"
+                app:layout_constraintTop_toBottomOf="@id/barrier2">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:cardBackgroundColor="@color/black"
+                    app:cardCornerRadius="10dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dirNameLengthView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_btn" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/dir_name_length"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dirLayersCountGroup"
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/bg_btn"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/dirNameLengthGroup"
+                app:layout_constraintEnd_toEndOf="@id/dirCountGroup"
+                app:layout_constraintStart_toEndOf="@id/dirNameLengthGroup"
+                app:layout_constraintTop_toTopOf="@id/dirNameLengthGroup">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:cardBackgroundColor="@color/black"
+                    app:cardCornerRadius="10dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dirLayersCountView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_btn" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/dir_layers_count"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/constituentGroup"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn"
+                android:padding="5dp"
+                app:flexWrap="wrap"
+                app:layout_constraintEnd_toEndOf="@id/dirLayersCountGroup"
+                app:layout_constraintStart_toStartOf="@id/dirNameLengthGroup"
+                app:layout_constraintTop_toBottomOf="@id/dirNameLengthGroup">
+
+                <LinearLayout
+                    android:id="@+id/useNumberBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/bg_btn"
+                    android:gravity="center"
+                    android:minHeight="50dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/useNumberStateView"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@color/teal_700"
+                        app:shapeAppearanceOverlay="@style/OvalShape" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center"
+                        android:text="@string/use_number"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/useLowercaseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/bg_btn"
+                    android:gravity="center"
+                    android:minHeight="50dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/useLowercaseStateView"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@color/teal_700"
+                        app:shapeAppearanceOverlay="@style/OvalShape" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center"
+                        android:text="@string/use_lowercase"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/useUppercaseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/bg_btn"
+                    android:gravity="center"
+                    android:minHeight="50dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/useUppercaseStateView"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@color/teal_700"
+                        app:shapeAppearanceOverlay="@style/OvalShape" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center"
+                        android:text="@string/use_uppercase"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:minHeight="70dp"
+                android:text="生成文件夹"
+                app:backgroundTint="@color/teal_700"
+                app:layout_constraintEnd_toEndOf="@id/dirCountGroup"
+                app:layout_constraintTop_toBottomOf="@id/constituentGroup"
+                app:layout_constraintWidth_percent="0.5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
