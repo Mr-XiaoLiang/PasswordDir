@@ -7,6 +7,7 @@
     <string name="min">最小</string>
     <string name="dir_layers_count">文件夹层数</string>
     <string name="use_number">包含数字</string>
-    <string name="use_lowercase">使用小写字母</string>
-    <string name="use_uppercase">使用大写字母</string>
+    <string name="use_lowercase">包含小写字母</string>
+    <string name="use_uppercase">包含大写字母</string>
+    <string name="make_dirs">生成文件夹</string>
 </resources>

@@ -12,7 +12,6 @@
         android:paddingHorizontal="5dp"
         android:minWidth="30dp"
         android:textSize="18sp"
-        android:text="AA"
         android:gravity="center"
         android:textColor="@color/white"/>
 

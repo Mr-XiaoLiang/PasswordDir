@@ -534,13 +534,35 @@ inline fun <reified T : ViewBinding> View.bind(): T {
     return LayoutInflater.from(this.context).bind()
 }
 
-inline fun <reified T : ViewBinding> LayoutInflater.bind(): T {
+inline fun <reified T : ViewBinding> ViewGroup.bind(isParent: Boolean): T {
+    val parent = if (isParent) {
+        this
+    } else {
+        null
+    }
+    return LayoutInflater.from(this.context).bind(parent)
+}
+
+inline fun <reified T : ViewBinding> LayoutInflater.bind(parent: ViewGroup? = null): T {
     val layoutInflater: LayoutInflater = this
     val bindingClass = T::class.java
-    val inflateMethod = bindingClass.getMethod("inflate", LayoutInflater::class.java)
-    val invokeObj = inflateMethod.invoke(null, layoutInflater)
-    if (invokeObj is T) {
-        return invokeObj
+    if (parent == null) {
+        val inflateMethod = bindingClass.getMethod("inflate", LayoutInflater::class.java)
+        val invokeObj = inflateMethod.invoke(null, layoutInflater)
+        if (invokeObj is T) {
+            return invokeObj
+        }
+    } else {
+        val inflateMethod = bindingClass.getMethod(
+            "inflate",
+            LayoutInflater::class.java,
+            ViewGroup::class.java,
+            Boolean::class.java
+        )
+        val invokeObj = inflateMethod.invoke(null, layoutInflater, parent, false)
+        if (invokeObj is T) {
+            return invokeObj
+        }
     }
     throw InflateException("Cant inflate ViewBinding ${bindingClass.name}")
 }

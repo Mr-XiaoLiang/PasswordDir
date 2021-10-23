@@ -53,7 +53,8 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dirInfoCard">
+        app:layout_constraintTop_toBottomOf="@id/dirInfoCard"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -62,7 +63,7 @@
             <LinearLayout
                 android:id="@+id/nomediaBtn"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
+                android:layout_height="0px"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="12dp"
@@ -74,7 +75,8 @@
                 android:paddingVertical="10dp"
                 app:layout_constraintEnd_toStartOf="@id/dirCountGroup"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/dirCountGroup">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/nomediaStateView"
@@ -380,11 +382,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:minHeight="70dp"
-                android:text="生成文件夹"
+                android:id="@+id/mkdirBtn"
+                android:text="@string/make_dirs"
                 app:backgroundTint="@color/teal_700"
                 app:layout_constraintEnd_toEndOf="@id/dirCountGroup"
                 app:layout_constraintTop_toBottomOf="@id/constituentGroup"
-                app:layout_constraintWidth_percent="0.5" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintWidth_percent="0.5"
+                android:layout_marginBottom="30dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
