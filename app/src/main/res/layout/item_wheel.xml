@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent">
 
     <TextView
@@ -10,9 +10,10 @@
         android:id="@+id/messageItemView"
         android:paddingVertical="3dp"
         android:paddingHorizontal="5dp"
-        android:minWidth="30dp"
-        android:textSize="18sp"
+        android:minWidth="44dp"
+        android:textSize="22sp"
         android:gravity="center"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
 
 </FrameLayout>
