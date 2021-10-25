@@ -10,4 +10,9 @@
     <string name="use_lowercase">包含小写字母</string>
     <string name="use_uppercase">包含大写字母</string>
     <string name="make_dirs">生成文件夹</string>
+    <string name="max_less_than_min">最大文件数不能小于最小文件数</string>
+    <string name="expected_generation_results">预计生成 %1$d 个文件</string>
+    <string name="expected_generation_results2">预计生成 %1$d - %2$d 个文件</string>
+    <string name="select_at_least_one">最少选择一种文件名元素</string>
+    <string name="too_few_elements">文件名元素过少，可能产生重复的结果</string>
 </resources>

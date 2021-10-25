@@ -53,8 +53,24 @@ class StatusViewHelper : View.OnClickListener {
             }
         }
 
+    fun statusIs(value: String): Boolean {
+        return currentStatus == value
+    }
+
+    fun statusIsOn(): Boolean {
+        return statusIs(STATUS_ON)
+    }
+
     fun update() {
         statusChangedListener?.onStatusChanged(currentStatus)
+    }
+
+    fun statusOn() {
+        setStatus(STATUS_ON)
+    }
+
+    fun statusOff() {
+        setStatus(STATUS_OFF)
     }
 
     fun setStatus(status: String) {
