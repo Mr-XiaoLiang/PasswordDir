@@ -1,10 +1,26 @@
 package com.lollipop.passworddir.util
 
+import java.io.File
+
 /**
  * @author lollipop
  * @date 2021/10/25 22:24
  */
 object DirUtil {
+
+    private val KEY_MAP by lazy {
+        val list = ArrayList<String>()
+        for (char in '0'..'9') {
+            list.add(java.lang.String.valueOf(char))
+        }
+        for (char in 'a'..'z') {
+            list.add(java.lang.String.valueOf(char))
+        }
+        for (char in 'A'..'Z') {
+            list.add(java.lang.String.valueOf(char))
+        }
+        list.toTypedArray()
+    }
 
     fun getDirCount(isNomedia: Boolean, dirCount: Int, layersCount: Int): Int {
         var result = if (isNomedia) {
@@ -39,6 +55,10 @@ object DirUtil {
             result *= e
         }
         return result
+    }
+
+    private fun makeDirs(): List<File> {
+        TODO()
     }
 
 }
