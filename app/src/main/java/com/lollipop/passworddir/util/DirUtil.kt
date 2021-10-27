@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.Settings
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.random.Random
@@ -43,15 +44,23 @@ object DirUtil {
         list.toTypedArray()
     }
 
-    const val PERMISSION_REQUEST_CODE = 996
+    private const val PERMISSION_REQUEST_CODE = 996
+
+    private const val SD_CARD = "/storage/emulated/0"
+
+    val dateFormat by lazy {
+        SimpleDateFormat("HH_mm_ss_yyyy_MM_dd", Locale.getDefault())
+    }
+
+    fun rootDir(): File {
+        return File(Environment.getExternalStorageDirectory(), "PasswordDir")
+    }
 
     /**
      * 请求管理所有文件的权限
      */
     fun requestManageAllFile(activity: Activity) {
-        if (versionThen(Build.VERSION_CODES.R)) {
-            activity.startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
-        } else if (versionThen(Build.VERSION_CODES.M)) {
+        if (versionThen(Build.VERSION_CODES.M)) {
             activity.requestPermissions(
                 arrayOf(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -59,6 +68,10 @@ object DirUtil {
                 ),
                 PERMISSION_REQUEST_CODE
             )
+            return
+        }
+        if (versionThen(Build.VERSION_CODES.R)) {
+            activity.startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
         }
     }
 
@@ -66,19 +79,17 @@ object DirUtil {
      * 判断是否获取MANAGE_EXTERNAL_STORAGE权限：
      */
     fun canManageAllFile(context: Context): Boolean {
-        return when {
-            versionThen(Build.VERSION_CODES.R) -> {
-                Environment.isExternalStorageManager()
-            }
-            versionThen(Build.VERSION_CODES.M) -> {
-                context.checkSelfPermission(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
-            }
-            else -> {
-                true
-            }
+        if (versionThen(Build.VERSION_CODES.M)
+            && context.checkSelfPermission(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return false
         }
+        if (versionThen(Build.VERSION_CODES.R) && !Environment.isExternalStorageManager()) {
+            return false
+        }
+        return true
     }
 
     fun getDirCount(isNomedia: Boolean, dirCount: Int, layersCount: Int): Int {
@@ -134,6 +145,9 @@ object DirUtil {
             allDirCount += nextLayer.size
             pendingDir.addAll(nextLayer)
             nextLayer.clear()
+        }
+        if (option.noMedia) {
+            allDirCount *= 2
         }
         return allDirCount
     }

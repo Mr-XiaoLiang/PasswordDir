@@ -4,13 +4,22 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.lollipop.passworddir.databinding.ActivityMainBinding
 import com.lollipop.passworddir.util.DirUtil
+import com.lollipop.passworddir.util.doAsync
 import com.lollipop.passworddir.util.lazyBind
+import com.lollipop.passworddir.util.onUI
 import com.lollipop.passworddir.view.ListDialogHelper
 import com.lollipop.passworddir.view.MessageViewHelper
+import com.lollipop.passworddir.view.SmoothMessageHelper
 import com.lollipop.passworddir.view.StatusViewHelper
 import com.lollipop.passworddir.view.StatusViewHelper.Companion.bindColorStatus
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.PrintWriter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +34,10 @@ class MainActivity : AppCompatActivity() {
 
     private val messageViewHelper by lazy {
         MessageViewHelper(binding.messageListView)
+    }
+
+    private val smoothMessageHelper by lazy {
+        SmoothMessageHelper(messageViewHelper)
     }
 
     private val defaultStatusMap by lazy {
@@ -150,6 +163,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         onParameterChanged()
+
+        switchToLoading(false)
     }
 
     private fun initNumberView(view: TextView, def: Int, data: NumberList, save: (Int) -> Unit) {
@@ -196,10 +211,91 @@ class MainActivity : AppCompatActivity() {
 
     private fun makeDirs() {
         if (!DirUtil.canManageAllFile(this)) {
+            messageViewHelper.post(getString(R.string.no_permission))
             DirUtil.requestManageAllFile(this)
             return
         }
-        messageViewHelper.post("可以创建文件了")
+        messageViewHelper.post(getString(R.string.mkdir_start))
+
+        val rootDir = DirUtil.rootDir()
+        val parentFile = File(rootDir, DirUtil.dateFormat.format(Date()))
+
+        onFileCreateStart()
+        doAsync({ error ->
+            onFileCreateError(error)
+        }) {
+            val fileCount = DirUtil.makeDirs(parentFile, createOption()) { newFile ->
+                onUI {
+                    onNewFileCreated(newFile)
+                }
+            }
+            onUI {
+                onFileCreateEnd(parentFile, fileCount)
+            }
+        }
+    }
+
+    private fun onNewFileCreated(file: File) {
+        smoothMessageHelper.post(getString(R.string.make_new, file.name), true)
+    }
+
+    private fun onFileCreateStart() {
+        switchToLoading(true)
+        smoothMessageHelper.start()
+    }
+
+    private fun onFileCreateEnd(root: File, count: Int) {
+        switchToLoading(false)
+        smoothMessageHelper.stop()
+        messageViewHelper.post(getString(R.string.mkdir_end, count, root.absolutePath))
+        messageViewHelper.post(getString(R.string.dir_path_hint))
+    }
+
+    private fun onFileCreateError(error: Throwable) {
+        val outputStream = ByteArrayOutputStream()
+        val printWriter = PrintWriter(outputStream)
+        error.printStackTrace(printWriter)
+        printWriter.flush()
+        val errorValue = outputStream.toString()
+        onUI {
+            switchToLoading(false)
+            smoothMessageHelper.stop()
+            messageViewHelper.post(errorValue)
+        }
+    }
+
+    private fun switchToLoading(isEnable: Boolean) {
+        binding.contentLoadingView.apply {
+            if (isEnable) {
+                show()
+            } else {
+                hide()
+            }
+        }
+        binding.contentGroup.isVisible = !isEnable
+    }
+
+    private fun createOption(): DirUtil.Option {
+        /**
+        val minCount: Int,
+        val maxCount: Int,
+        val noMedia: Boolean,
+        val layersCount: Int,
+        val nameLength: Int,
+        val useNumber: Boolean,
+        val useLowercase: Boolean,
+        val useUppercase: Boolean
+         */
+        return DirUtil.Option(
+            minCount = minDirCount,
+            maxCount = maxDirCount,
+            noMedia = isNomedia,
+            layersCount = layersCount,
+            nameLength = nameLength,
+            useNumber = useNumber,
+            useLowercase = useLowercase,
+            useUppercase = useUppercase
+        )
     }
 
     private fun Int.getColorById(): Int {

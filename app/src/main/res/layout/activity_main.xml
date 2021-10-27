@@ -49,6 +49,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentGroup"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_marginTop="20dp"
@@ -378,6 +379,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:id="@+id/contentLoadingView"
+        style="@style/Widget.AppCompat.ProgressBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dirInfoCard"/>
 
     <FrameLayout
         android:id="@+id/listDialogGroup"

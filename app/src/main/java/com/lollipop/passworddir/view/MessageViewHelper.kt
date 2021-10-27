@@ -1,5 +1,6 @@
 package com.lollipop.passworddir.view
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,6 +57,30 @@ class MessageViewHelper(private val recyclerView: RecyclerView) {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private fun addMessage(infoList: List<MessageInfo>) {
+        synchronized(LOCK) {
+            if (infoList.size + messageList.size > MAX_LIST_SIZE) {
+                if (infoList.size > MAX_LIST_SIZE) {
+                    val size = infoList.size
+                    messageList = ArrayList(infoList.subList(size - KEEP_LIST_SIZE, size - 1))
+                    recyclerView.adapter?.notifyDataSetChanged()
+                    return
+                }
+                val newSize = infoList.size
+                val oldSize = messageList.size
+                messageList = ArrayList(messageList.subList(oldSize - KEEP_LIST_SIZE + newSize, oldSize - 1))
+                messageList.addAll(infoList)
+                recyclerView.adapter?.notifyDataSetChanged()
+                return
+            }
+            val index = messageList.size
+            messageList.addAll(infoList)
+            recyclerView.adapter?.notifyItemRangeInserted(index, infoList.size)
+            recyclerView.smoothScrollToPosition(messageList.size - 1)
+        }
+    }
+
     fun post(info: MessageInfo) {
         recyclerView.post {
             addMessage(info)
@@ -65,6 +90,12 @@ class MessageViewHelper(private val recyclerView: RecyclerView) {
     fun post(info: CharSequence) {
         recyclerView.post {
             addMessage(MessageInfo(info))
+        }
+    }
+
+    fun postAll(infoList: List<MessageInfo>) {
+        recyclerView.post {
+            addMessage(infoList)
         }
     }
 
