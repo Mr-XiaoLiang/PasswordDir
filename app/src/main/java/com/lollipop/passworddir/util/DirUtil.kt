@@ -1,5 +1,13 @@
 package com.lollipop.passworddir.util
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Environment
+import android.provider.Settings
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,6 +41,44 @@ object DirUtil {
             list.add(char)
         }
         list.toTypedArray()
+    }
+
+    const val PERMISSION_REQUEST_CODE = 996
+
+    /**
+     * 请求管理所有文件的权限
+     */
+    fun requestManageAllFile(activity: Activity) {
+        if (versionThen(Build.VERSION_CODES.R)) {
+            activity.startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+        } else if (versionThen(Build.VERSION_CODES.M)) {
+            activity.requestPermissions(
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ),
+                PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
+    /**
+     * 判断是否获取MANAGE_EXTERNAL_STORAGE权限：
+     */
+    fun canManageAllFile(context: Context): Boolean {
+        return when {
+            versionThen(Build.VERSION_CODES.R) -> {
+                Environment.isExternalStorageManager()
+            }
+            versionThen(Build.VERSION_CODES.M) -> {
+                context.checkSelfPermission(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            }
+            else -> {
+                true
+            }
+        }
     }
 
     fun getDirCount(isNomedia: Boolean, dirCount: Int, layersCount: Int): Int {
@@ -72,7 +118,7 @@ object DirUtil {
         return result
     }
 
-    fun makeDirs(parent: File, option: Option): Int {
+    fun makeDirs(parent: File, option: Option, onFileCreate: (File) -> Unit): Int {
         var allDirCount = 0
         val pendingDir = LinkedList<File>()
         pendingDir.add(parent)
@@ -82,7 +128,7 @@ object DirUtil {
             while (pendingDir.isNotEmpty()) {
                 val dir = pendingDir.removeFirst()
                 val count = option.randomCount()
-                val children = makeDirs(dir, count, makeOption)
+                val children = makeDirs(dir, count, makeOption, onFileCreate)
                 nextLayer.addAll(children)
             }
             allDirCount += nextLayer.size
@@ -92,7 +138,12 @@ object DirUtil {
         return allDirCount
     }
 
-    private fun makeDirs(parent: File, count: Int, option: MakeOption): List<File> {
+    private fun makeDirs(
+        parent: File,
+        count: Int,
+        option: MakeOption,
+        onFileCreate: (File) -> Unit
+    ): List<File> {
         if (count < 1) {
             return emptyList()
         }
@@ -132,6 +183,12 @@ object DirUtil {
         // 创建每个文件夹
         fileList.forEach {
             it.mkdirs()
+            onFileCreate(it)
+            if (option.noMedia) {
+                val noMediaFile = File(it, ".nomedia")
+                noMediaFile.createNewFile()
+                onFileCreate(noMediaFile)
+            }
         }
         // 返回集合
         return fileList
@@ -160,6 +217,7 @@ object DirUtil {
     class Option(
         val minCount: Int,
         val maxCount: Int,
+        val noMedia: Boolean,
         val layersCount: Int,
         val nameLength: Int,
         val useNumber: Boolean,
@@ -169,6 +227,7 @@ object DirUtil {
         fun createMakeOption(): MakeOption {
             return MakeOption(
                 nameLength,
+                noMedia,
                 createKeyMap()
             )
         }
@@ -198,6 +257,7 @@ object DirUtil {
 
     class MakeOption(
         val nameLength: Int,
+        val noMedia: Boolean,
         val keyMap: CharArray
     )
 

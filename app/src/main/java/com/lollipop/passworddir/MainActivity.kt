@@ -127,6 +127,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        binding.mkdirBtn.setOnClickListener {
+            makeDirs()
+        }
+
         nomediaBtnStatus.statusOn()
         useNumberBtnStatus.statusOn()
         useLowercaseBtnStatus.statusOn()
@@ -188,6 +192,14 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.expected_generation_results2, min, max)
         }
         binding.dirInfoView.text = result
+    }
+
+    private fun makeDirs() {
+        if (!DirUtil.canManageAllFile(this)) {
+            DirUtil.requestManageAllFile(this)
+            return
+        }
+        messageViewHelper.post("可以创建文件了")
     }
 
     private fun Int.getColorById(): Int {

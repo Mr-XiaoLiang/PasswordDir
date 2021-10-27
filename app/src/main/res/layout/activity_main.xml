@@ -52,10 +52,10 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dirInfoCard"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/dirInfoCard">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -74,10 +74,10 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/dirCountGroup"
                 app:layout_constraintEnd_toStartOf="@id/dirCountGroup"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/dirCountGroup">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/nomediaStateView"
@@ -109,56 +109,40 @@
                 app:layout_constraintTop_toTopOf="@id/nomediaBtn"
                 app:layout_constraintWidth_percent="0.6">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/dirCountMinGroup"
+                <TextView
+                    android:id="@+id/dirCountMinView"
                     android:layout_width="0px"
                     android:layout_height="50dp"
+                    android:background="@drawable/bg_btn"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="10dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
                     app:cardBackgroundColor="@color/black"
                     app:cardCornerRadius="10dp"
-                    app:layout_constraintEnd_toStartOf="@id/dirCountMaxGroup"
+                    app:layout_constraintEnd_toStartOf="@id/dirCountMaxView"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:text="@string/app_name"
-                        android:textColor="@color/white"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        android:id="@+id/dirCountMinView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_btn" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/dirCountMaxGroup"
+                <TextView
+                    android:id="@+id/dirCountMaxView"
                     android:layout_width="0px"
                     android:layout_height="0px"
                     android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_btn"
                     android:gravity="center"
                     android:minHeight="50dp"
-                    android:orientation="horizontal"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="10dp"
-                    app:cardBackgroundColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="@id/dirCountMinGroup"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/dirCountMinView"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/dirCountMinGroup"
-                    app:layout_constraintTop_toTopOf="@id/dirCountMinGroup">
-
-                    <TextView
-                        android:text="@string/app_name"
-                        android:textColor="@color/white"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        android:id="@+id/dirCountMaxView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_btn" />
-                </com.google.android.material.card.MaterialCardView>
+                    app:layout_constraintStart_toEndOf="@id/dirCountMinView"
+                    app:layout_constraintTop_toTopOf="@id/dirCountMinView" />
 
                 <TextView
                     android:id="@+id/dirCountMinDescription"
@@ -168,9 +152,9 @@
                     android:text="@string/min"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="@id/dirCountMinGroup"
-                    app:layout_constraintStart_toStartOf="@id/dirCountMinGroup"
-                    app:layout_constraintTop_toBottomOf="@id/dirCountMinGroup" />
+                    app:layout_constraintEnd_toEndOf="@id/dirCountMinView"
+                    app:layout_constraintStart_toStartOf="@id/dirCountMinView"
+                    app:layout_constraintTop_toBottomOf="@id/dirCountMinView" />
 
                 <TextView
                     android:id="@+id/dirCountMaxDescription"
@@ -180,9 +164,9 @@
                     android:text="@string/max"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="@id/dirCountMaxGroup"
-                    app:layout_constraintStart_toStartOf="@id/dirCountMaxGroup"
-                    app:layout_constraintTop_toBottomOf="@id/dirCountMaxGroup" />
+                    app:layout_constraintEnd_toEndOf="@id/dirCountMaxView"
+                    app:layout_constraintStart_toStartOf="@id/dirCountMaxView"
+                    app:layout_constraintTop_toBottomOf="@id/dirCountMaxView" />
 
                 <TextView
                     android:id="@+id/dirCountDescription"
@@ -192,8 +176,8 @@
                     android:text="@string/dir_count"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/dirCountMaxGroup"
-                    app:layout_constraintStart_toStartOf="@id/dirCountMinGroup"
+                    app:layout_constraintEnd_toEndOf="@id/dirCountMaxView"
+                    app:layout_constraintStart_toStartOf="@id/dirCountMinView"
                     app:layout_constraintTop_toBottomOf="@id/dirCountMinDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -218,23 +202,15 @@
                 app:layout_constraintStart_toStartOf="@id/nomediaBtn"
                 app:layout_constraintTop_toBottomOf="@id/barrier2">
 
-                <com.google.android.material.card.MaterialCardView
+                <TextView
+                    android:id="@+id/dirNameLengthView"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    app:cardBackgroundColor="@color/black"
-                    app:cardCornerRadius="10dp">
-
-                    <TextView
-                        android:text="@string/app_name"
-                        android:textColor="@color/white"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        android:id="@+id/dirNameLengthView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_btn" />
-
-                </com.google.android.material.card.MaterialCardView>
+                    android:background="@drawable/bg_btn"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -260,23 +236,15 @@
                 app:layout_constraintStart_toEndOf="@id/dirNameLengthGroup"
                 app:layout_constraintTop_toTopOf="@id/dirNameLengthGroup">
 
-                <com.google.android.material.card.MaterialCardView
+                <TextView
+                    android:id="@+id/dirLayersCountView"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    app:cardBackgroundColor="@color/black"
-                    app:cardCornerRadius="10dp">
-
-                    <TextView
-                        android:text="@string/app_name"
-                        android:textColor="@color/white"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        android:id="@+id/dirLayersCountView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_btn" />
-
-                </com.google.android.material.card.MaterialCardView>
+                    android:background="@drawable/bg_btn"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -395,48 +363,49 @@
             </com.google.android.flexbox.FlexboxLayout>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/mkdirBtn"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
                 android:minHeight="70dp"
-                android:id="@+id/mkdirBtn"
                 android:text="@string/make_dirs"
                 app:backgroundTint="@color/teal_700"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/dirCountGroup"
                 app:layout_constraintTop_toBottomOf="@id/constituentGroup"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintWidth_percent="0.5"
-                android:layout_marginBottom="30dp"/>
+                app:layout_constraintWidth_percent="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
     <FrameLayout
+        android:id="@+id/listDialogGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listDialogGroup"
         android:elevation="22dp"
         android:visibility="gone">
 
         <View
+            android:id="@+id/listDialogBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/listDialogBackground"
-            android:background="#6000"/>
+            android:background="#6000" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/listDialogCard"
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:layout_gravity="center"
-            app:cardElevation="12dp"
-            app:cardCornerRadius="10dp"
             android:layout_marginHorizontal="36dp"
-            app:cardBackgroundColor="@color/card_background">
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="12dp">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listDialogContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </com.google.android.material.card.MaterialCardView>
 
     </FrameLayout>
