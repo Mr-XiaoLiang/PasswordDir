@@ -69,7 +69,8 @@ class MessageViewHelper(private val recyclerView: RecyclerView) {
                 }
                 val newSize = infoList.size
                 val oldSize = messageList.size
-                messageList = ArrayList(messageList.subList(oldSize - KEEP_LIST_SIZE + newSize, oldSize - 1))
+                messageList =
+                    ArrayList(messageList.subList(oldSize - KEEP_LIST_SIZE + newSize, oldSize - 1))
                 messageList.addAll(infoList)
                 recyclerView.adapter?.notifyDataSetChanged()
                 return
@@ -87,9 +88,13 @@ class MessageViewHelper(private val recyclerView: RecyclerView) {
         }
     }
 
-    fun post(info: CharSequence) {
+    fun post(
+        info: CharSequence,
+        isSub: Boolean = false,
+        isError: Boolean = false
+    ) {
         recyclerView.post {
-            addMessage(MessageInfo(info))
+            addMessage(MessageInfo(info, isSub, isError))
         }
     }
 
@@ -131,12 +136,22 @@ class MessageViewHelper(private val recyclerView: RecyclerView) {
             ContextCompat.getColor(itemView.context, R.color.message_arrow)
         }
 
+        private val errorColor: Int by lazy {
+            ContextCompat.getColor(itemView.context, R.color.message_error)
+        }
+
         fun bind(info: MessageInfo) {
+            TODO("需要一个长按复制功能")
             RichTextHelper.startRichFlow()
                 .optional(!info.isSub) {
                     addInfo("➜ ", startArrowColor)
                 }
-                .addInfo(info.info)
+                .optional(info.isError) {
+                    addInfo(info.info.toString(), errorColor)
+                }
+                .optional(!info.isError) {
+                    addInfo(info.info)
+                }
                 .into(binding.messageItemView)
         }
 
@@ -144,7 +159,8 @@ class MessageViewHelper(private val recyclerView: RecyclerView) {
 
     data class MessageInfo(
         val info: CharSequence,
-        val isSub: Boolean = false
+        val isSub: Boolean = false,
+        val isError: Boolean = false
     )
 
 }

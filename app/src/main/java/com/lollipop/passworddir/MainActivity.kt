@@ -260,7 +260,8 @@ class MainActivity : AppCompatActivity() {
         onUI {
             switchToLoading(false)
             smoothMessageHelper.stop()
-            messageViewHelper.post(errorValue)
+            messageViewHelper.post(getString(R.string.error), isError = true)
+            messageViewHelper.post(errorValue, isError = true)
         }
     }
 
