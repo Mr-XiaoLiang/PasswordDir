@@ -46,8 +46,6 @@ object DirUtil {
 
     private const val PERMISSION_REQUEST_CODE = 996
 
-    private const val SD_CARD = "/storage/emulated/0"
-
     val dateFormat by lazy {
         SimpleDateFormat("HH_mm_ss_yyyy_MM_dd", Locale.getDefault())
     }
@@ -112,7 +110,7 @@ object DirUtil {
         useLowercase: Boolean,
         useUppercase: Boolean
     ): Int {
-        var result = 0
+        var result = 0L
         if (useNumber) {
             result += 10
         }
@@ -125,8 +123,11 @@ object DirUtil {
         val e = result
         for (i in 2..nameLength) {
             result *= e
+            if (result > Int.MAX_VALUE) {
+                return Int.MAX_VALUE
+            }
         }
-        return result
+        return result.toInt()
     }
 
     fun makeDirs(parent: File, option: Option, onFileCreate: (File) -> Unit): Int {
