@@ -140,8 +140,14 @@ class MessageViewHelper(private val recyclerView: RecyclerView) {
             ContextCompat.getColor(itemView.context, R.color.message_error)
         }
 
+        init {
+            binding.messageItemView.setOnLongClickListener {
+                EditDialog.show(it.context, binding.messageItemView.text ?: "")
+                true
+            }
+        }
+
         fun bind(info: MessageInfo) {
-            TODO("需要一个长按复制功能")
             RichTextHelper.startRichFlow()
                 .optional(!info.isSub) {
                     addInfo("➜ ", startArrowColor)
