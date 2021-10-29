@@ -198,9 +198,9 @@ class MainActivity : AppCompatActivity() {
             messageViewHelper.post(getString(R.string.too_few_elements))
         }
 
-        val nomedia = isNomedia
-        val min = DirUtil.getDirCount(nomedia, minDirCount, layersCount)
-        val max = DirUtil.getDirCount(nomedia, maxDirCount, layersCount)
+        val noMedia = isNomedia
+        val min = DirUtil.getDirCount(noMedia, minDirCount, layersCount)
+        val max = DirUtil.getDirCount(noMedia, maxDirCount, layersCount)
         val result = if (min == max) {
             getString(R.string.expected_generation_results, min)
         } else {
