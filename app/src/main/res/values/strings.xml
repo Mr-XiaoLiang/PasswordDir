@@ -21,4 +21,6 @@
     <string name="dir_path_hint">文件夹路径中的 "/storage/emulated/0" 表示设备存储空间的根目录。如果您的设备支持SD卡，那么它表示的是设备内置的存储空间</string>
     <string name="make_new">已创建：%1$s</string>
     <string name="error">出错了</string>
+    <string name="next">下一步</string>
+    <string name="previous">上一步</string>
 </resources>

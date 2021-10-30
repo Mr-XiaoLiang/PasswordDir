@@ -7,6 +7,66 @@
     android:layout_height="match_parent"
     tools:context=".GuideActivity">
 
-    
+    <com.lollipop.passworddir.view.IndexPointView
+        android:id="@+id/indexPointView"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:selectedColor="@color/white"
+        app:defaultColor="#80FFFFFF"
+        app:pointCount="8"
+        app:pointInterval="10dp"
+        android:layout_marginBottom="10dp"
+        app:selectedIndex="3"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/indexPointView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        app:icon="@drawable/ic_baseline_navigate_next_24"
+        android:text="@string/next"
+        android:id="@+id/nextBtn"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        android:id="@+id/previousBtn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textColor="@color/teal_200"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/nextBtn"
+        app:layout_constraintTop_toTopOf="@id/nextBtn"
+        app:layout_constraintBottom_toBottomOf="@id/nextBtn"/>
+
+    <ImageView
+        android:layout_width="0px"
+        android:layout_height="0px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintWidth_percent="0.8"
+        android:id="@+id/imageView"
+        app:layout_constraintBottom_toTopOf="@id/textView"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher_foreground"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintBottom_toTopOf="@id/nextBtn"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="20dp"
+        android:textColor="@color/white"
+        android:text="@string/app_name"
+        android:gravity="center"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

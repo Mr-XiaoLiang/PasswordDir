@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IndexPointView">
+        <attr name="selectedColor" format="color"/>
+        <attr name="defaultColor" format="color"/>
+        <attr name="selectedIndex" format="integer"/>
+        <attr name="pointCount" format="integer"/>
+        <attr name="pointInterval" format="dimension"/>
+    </declare-styleable>
+</resources>
