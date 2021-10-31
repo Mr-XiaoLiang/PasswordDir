@@ -6,10 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.lollipop.passworddir.databinding.ActivityMainBinding
-import com.lollipop.passworddir.util.DirUtil
-import com.lollipop.passworddir.util.doAsync
-import com.lollipop.passworddir.util.lazyBind
-import com.lollipop.passworddir.util.onUI
+import com.lollipop.passworddir.util.*
 import com.lollipop.passworddir.view.ListDialogHelper
 import com.lollipop.passworddir.view.MessageViewHelper
 import com.lollipop.passworddir.view.SmoothMessageHelper
@@ -132,10 +129,12 @@ class MainActivity : AppCompatActivity() {
             return useUppercaseBtnStatus.statusIsOn()
         }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowInsetsHelper.initWindowFlag(this)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.root.fixInsetsByPadding(WindowInsetsHelper.Edge.HEADER)
+        binding.operationPanel.fixInsetsByPadding(WindowInsetsHelper.Edge.CONTENT)
         initView()
     }
 

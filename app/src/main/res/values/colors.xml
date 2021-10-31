@@ -12,5 +12,8 @@
     <color name="message_error">#AA0505</color>
     <color name="status_on">#FF03DAC5</color>
     <color name="status_off">#405755</color>
-    <color name="card_background">#333</color>
+    <color name="card_background">#24292E</color>
+    <color name="window_background_start">#24292D</color>
+    <color name="window_background_end">#15181F</color>
+    <color name="screen_background">#4B5046</color>
 </resources>
