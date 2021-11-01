@@ -23,4 +23,7 @@
     <string name="error">出错了</string>
     <string name="next">下一步</string>
     <string name="previous">上一步</string>
+    <string name="guide_step_pwd">密码，就是一段隐藏着逻辑的编码。\n对于不知道逻辑的人来说，这就是一串乱码。</string>
+    <string name="guide_step_name">每一段文字中，我们如果只看某些位置的内容，那么它们也许可以拼接成有意义的内容。\n假设，每一段文字都是一个文件名呢？</string>
+    <string name="guide_step_tree">如果，一个文件夹里面有四个文件，那么有四种选择。\n如果每个文件夹里面又有四个文件夹，那么就有了16种选择。\n如果里面还有4个文件夹呢？</string>
 </resources>
