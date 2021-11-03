@@ -58,7 +58,7 @@ object DirUtil {
      * 请求管理所有文件的权限
      */
     fun requestManageAllFile(activity: Activity) {
-        if (versionThen(Build.VERSION_CODES.M)) {
+        if (versionThen(Build.VERSION_CODES.M) && !canWriteFile(activity)) {
             activity.requestPermissions(
                 arrayOf(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -68,7 +68,7 @@ object DirUtil {
             )
             return
         }
-        if (versionThen(Build.VERSION_CODES.R)) {
+        if (versionThen(Build.VERSION_CODES.R) && !canManageFile()) {
             activity.startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
         }
     }
@@ -77,6 +77,16 @@ object DirUtil {
      * 判断是否获取MANAGE_EXTERNAL_STORAGE权限：
      */
     fun canManageAllFile(context: Context): Boolean {
+        if (!canWriteFile(context)) {
+            return false
+        }
+        if (!canManageFile()) {
+            return false
+        }
+        return true
+    }
+
+    private fun canWriteFile(context: Context): Boolean {
         if (versionThen(Build.VERSION_CODES.M)
             && context.checkSelfPermission(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -84,6 +94,10 @@ object DirUtil {
         ) {
             return false
         }
+        return true
+    }
+
+    private fun canManageFile(): Boolean {
         if (versionThen(Build.VERSION_CODES.R) && !Environment.isExternalStorageManager()) {
             return false
         }
@@ -130,7 +144,7 @@ object DirUtil {
         return result.toInt()
     }
 
-    fun makeDirs(parent: File, option: Option, onFileCreate: (File) -> Unit): Int {
+    fun makeDirs(parent: File, option: Option, onFileCreate: (File) -> Unit, onZipStart: () -> Unit): MakeResult {
         var allDirCount = 0
         val pendingDir = LinkedList<File>()
         pendingDir.add(parent)
@@ -150,7 +164,15 @@ object DirUtil {
         if (option.noMedia) {
             allDirCount *= 2
         }
-        return allDirCount
+        var zipDir: File? = null
+        if (option.zipDir) {
+            val parentFile = parent.parentFile
+            if (parentFile != null) {
+                onZipStart()
+                zipDir = ZipHelper.zipTo(parentFile, parent.name).addFile(parent).start()
+            }
+        }
+        return MakeResult(parent, allDirCount, zipDir)
     }
 
     private fun makeDirs(
@@ -233,6 +255,7 @@ object DirUtil {
         val minCount: Int,
         val maxCount: Int,
         val noMedia: Boolean,
+        val zipDir: Boolean,
         val layersCount: Int,
         val nameLength: Int,
         val useNumber: Boolean,
@@ -269,6 +292,12 @@ object DirUtil {
             return list.toCharArray()
         }
     }
+
+    class MakeResult(
+        val dirRoot: File,
+        val fileCount: Int,
+        val zipDir: File?
+    )
 
     class MakeOption(
         val nameLength: Int,

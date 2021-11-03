@@ -31,7 +31,7 @@ class SmoothMessageHelper(private val messageViewHelper: MessageViewHelper) {
 
     private fun checkNext() {
         if (isRunning) {
-            messageLooper.delay(100L)
+            messageLooper.delay(50L)
         } else if (cacheList.isNotEmpty()) {
             messageViewHelper.postAll(cacheList)
         }

@@ -65,6 +65,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val zipBtnStatus by lazy {
+        binding.zipBtn.bindColorStatus(
+            binding.zipStateView,
+            defaultStatusMap
+        ) {
+            onParameterChanged()
+        }
+    }
+
     private val useNumberBtnStatus by lazy {
         binding.useNumberBtn.bindColorStatus(
             binding.useNumberStateView,
@@ -114,6 +123,11 @@ class MainActivity : AppCompatActivity() {
             return nomediaBtnStatus.statusIsOn()
         }
 
+    private val isZip: Boolean
+        get() {
+            return zipBtnStatus.statusIsOn()
+        }
+
     private val useNumber: Boolean
         get() {
             return useNumberBtnStatus.statusIsOn()
@@ -144,6 +158,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         nomediaBtnStatus.statusOn()
+        zipBtnStatus.statusOn()
         useNumberBtnStatus.statusOn()
         useLowercaseBtnStatus.statusOn()
         useUppercaseBtnStatus.statusOn()
@@ -223,13 +238,22 @@ class MainActivity : AppCompatActivity() {
         doAsync({ error ->
             onFileCreateError(error)
         }) {
-            val fileCount = DirUtil.makeDirs(parentFile, createOption()) { newFile ->
-                onUI {
-                    onNewFileCreated(newFile)
+            val makeResult = DirUtil.makeDirs(
+                parentFile,
+                createOption(),
+                { newFile ->
+                    onUI {
+                        onNewFileCreated(newFile)
+                    }
+                },
+                {
+                    onUI {
+                        onFileZipStart()
+                    }
                 }
-            }
+            )
             onUI {
-                onFileCreateEnd(parentFile, fileCount)
+                onFileCreateEnd(makeResult.dirRoot, makeResult.fileCount, makeResult.zipDir)
             }
         }
     }
@@ -238,15 +262,22 @@ class MainActivity : AppCompatActivity() {
         smoothMessageHelper.post(getString(R.string.make_new, file.name), true)
     }
 
+    private fun onFileZipStart() {
+        smoothMessageHelper.post(getString(R.string.zip_dir_start), true)
+    }
+
     private fun onFileCreateStart() {
         switchToLoading(true)
         smoothMessageHelper.start()
     }
 
-    private fun onFileCreateEnd(root: File, count: Int) {
+    private fun onFileCreateEnd(root: File, count: Int, zipFile: File?) {
         switchToLoading(false)
         smoothMessageHelper.stop()
         messageViewHelper.post(getString(R.string.mkdir_end, count, root.absolutePath))
+        if (zipFile != null) {
+            messageViewHelper.post(getString(R.string.zip_dir_end, zipFile.absolutePath))
+        }
         messageViewHelper.post(getString(R.string.dir_path_hint))
     }
 
@@ -290,6 +321,7 @@ class MainActivity : AppCompatActivity() {
             minCount = minDirCount,
             maxCount = maxDirCount,
             noMedia = isNomedia,
+            zipDir = isZip,
             layersCount = layersCount,
             nameLength = nameLength,
             useNumber = useNumber,

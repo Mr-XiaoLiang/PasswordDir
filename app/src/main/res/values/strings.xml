@@ -18,12 +18,15 @@
     <string name="no_permission">我们需要权限才能在您的储存空间中创建文件夹</string>
     <string name="mkdir_start">准备开始创建文件夹</string>
     <string name="mkdir_end">文件夹创建完成，共创建 %1$d 个文件，位于：%2$s</string>
+    <string name="zip_dir_end">压缩文件夹完成，位于：%1$s</string>
     <string name="dir_path_hint">文件夹路径中的 "/storage/emulated/0" 表示设备存储空间的根目录。如果您的设备支持SD卡，那么它表示的是设备内置的存储空间</string>
     <string name="make_new">已创建：%1$s</string>
+    <string name="zip_dir_start">开始压缩文件夹</string>
     <string name="error">出错了</string>
     <string name="next">下一步</string>
     <string name="previous">上一步</string>
     <string name="guide_step_pwd">密码，就是一段隐藏着逻辑的编码。\n对于不知道逻辑的人来说，这就是一串乱码。</string>
     <string name="guide_step_name">每一段文字中，我们如果只看某些位置的内容，那么它们也许可以拼接成有意义的内容。\n假设，每一段文字都是一个文件名呢？</string>
     <string name="guide_step_tree">如果，一个文件夹里面有四个文件，那么有四种选择。\n如果每个文件夹里面又有四个文件夹，那么就有了16种选择。\n如果里面还有4个文件夹呢？</string>
+    <string name="zip">压缩文件夹</string>
 </resources>

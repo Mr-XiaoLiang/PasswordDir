@@ -106,19 +106,27 @@ class ZipHelper private constructor (private var zipFile: File) {
      */
     fun startUp(callback: (File) -> Unit) {
         doAsync {
-            if (zipFile.exists()) {
-                val path = zipFile.path
-                val suffixIndex = path.lastIndexOf(".")
-                val filePath = path.substring(0, suffixIndex)
-                zipFile = File(filePath + "_new.zip")
-            } else {
-                zipFile.parentFile?.mkdirs()
-            }
-            run()
+            start()
             onUI {
                 callback(zipFile)
             }
         }
+    }
+
+    /**
+     * 开始压缩，这是一个同步的任务
+     */
+    fun start(): File {
+        if (zipFile.exists()) {
+            val path = zipFile.path
+            val suffixIndex = path.lastIndexOf(".")
+            val filePath = path.substring(0, suffixIndex)
+            zipFile = File(filePath + "_new.zip")
+        } else {
+            zipFile.parentFile?.mkdirs()
+        }
+        run()
+        return zipFile
     }
 
     private fun run() {
