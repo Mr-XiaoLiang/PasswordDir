@@ -77,7 +77,6 @@
                 app:cardBackgroundColor="@color/card_background"
                 app:cardCornerRadius="@dimen/btn_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
-                app:layout_constraintBottom_toTopOf="@id/zipBtn"
                 app:layout_constraintEnd_toStartOf="@id/dirCountGroup"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -111,6 +110,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:visibility="gone"
                 android:id="@+id/zipBtn"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
@@ -118,7 +118,6 @@
                 app:cardBackgroundColor="@color/card_background"
                 app:cardCornerRadius="@dimen/btn_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
-                app:layout_constraintBottom_toBottomOf="@id/dirCountGroup"
                 app:layout_constraintEnd_toEndOf="@id/nomediaBtn"
                 app:layout_constraintStart_toStartOf="@id/nomediaBtn"
                 app:layout_constraintTop_toBottomOf="@id/nomediaBtn">
@@ -167,7 +166,6 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
                     android:background="@drawable/bg_btn"
                     android:padding="10dp">
 
@@ -251,7 +249,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="zipBtn,dirCountGroup" />
+                app:constraint_referenced_ids="zipBtn,nomediaBtn,dirCountGroup" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/dirNameLengthGroup"
