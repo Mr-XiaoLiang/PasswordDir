@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         nomediaBtnStatus.statusOn()
-        zipBtnStatus.statusOn()
+        zipBtnStatus.statusOff()
         useNumberBtnStatus.statusOn()
         useLowercaseBtnStatus.statusOn()
         useUppercaseBtnStatus.statusOn()
@@ -179,6 +179,8 @@ class MainActivity : AppCompatActivity() {
         onParameterChanged()
 
         switchToLoading(false)
+
+        listDialog.preInit()
     }
 
     private fun initNumberView(view: TextView, def: Int, data: NumberList, save: (Int) -> Unit) {

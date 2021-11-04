@@ -5,7 +5,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lollipop.passworddir.databinding.ItemListDialogBinding
@@ -56,8 +56,16 @@ class ListDialogHelper<T: ListDialogHelper.ItemInfo>(
 
     }
 
+    fun preInit() {
+        rootGroup.isInvisible = true
+        rootGroup.post {
+            updateByProgress()
+        }
+    }
+
     fun show() {
         rootGroup.post {
+            updateByProgress()
             animator.cancel()
             animator.duration = ((1 - animationProgress) / 1F * DURATION).toLong()
             animator.setFloatValues(animationProgress, 1F)
@@ -97,7 +105,7 @@ class ListDialogHelper<T: ListDialogHelper.ItemInfo>(
         if (animation != animator) {
             return
         }
-        rootGroup.isVisible = true
+        rootGroup.isInvisible = false
     }
 
     override fun onAnimationEnd(animation: Animator?) {
@@ -105,7 +113,7 @@ class ListDialogHelper<T: ListDialogHelper.ItemInfo>(
             return
         }
         if (animationProgress < THRESHOLD_CLOSE) {
-            rootGroup.isVisible = false
+            rootGroup.isInvisible = true
         }
     }
 
@@ -120,6 +128,10 @@ class ListDialogHelper<T: ListDialogHelper.ItemInfo>(
             return
         }
         animationProgress = animator.animatedValue as Float
+        updateByProgress()
+    }
+
+    private fun updateByProgress() {
         backgroundView.alpha = animationProgress
         dialogCard.translationX = (animationProgress - 1) * dialogCard.right
     }
